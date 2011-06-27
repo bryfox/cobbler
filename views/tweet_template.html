@@ -1,0 +1,20 @@
+<% if (typeof tweets === 'object' && tweets.length) { %>
+
+  <% u = tweets[0].user; %>
+  <h1 class="user">
+    <a href="<%= u.url %>">
+      <img src="<%= u.profile_image_url %>" alt="">
+    </a>
+    <%= u.name %>
+  </h1>
+  <ul class="tweets">
+    <% for (var time, t, i = 0; i<tweets.length; i++) { %>
+      <li>
+        <% t = tweets[i]; %>
+        <span class="body"><%= t.text %></span>
+        <span class="time"><%= time = DateHelper.timeSince(t.created_at) %></span>
+      </li>
+    <% } %>
+  </ul>
+  
+<% } %>

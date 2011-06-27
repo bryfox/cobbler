@@ -1,0 +1,34 @@
+<form action="/tweets" method="get" accept-charset="utf-8">
+  <label>
+    @<input type="text" name="username" value="STEVEMARTINTOGO">
+  </label>
+  <p><input type="submit" value="Get Tweets"></p>
+</form>
+<div id="output"></div>
+
+<% unless is_lame_browser %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/js/templater.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/js/date_helper.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+    $(init);
+    function init () {
+      $('form').submit(function () {
+        var $this = $(this),
+            $dest;
+        $this.hide();
+        $dest = $('#output');
+        $dest.addClass('loading');
+        $.getJSON($this.attr('action'), $this.serialize(), function (resp) {
+          var rendered = tmpl($('#tweet_template').html(), resp);
+          $dest.html(rendered).removeClass('loading');
+        });
+        return false;
+      });
+    }
+  </script>
+<% end %>
+
+<script type="text/html" id="tweet_template" charset="utf-8">
+  <%= tweet_template %>
+</script>
